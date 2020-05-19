@@ -3,14 +3,21 @@
     <img alt="Vue logo" src="../assets/logo.png" />
 
     <div class="container">
-      <div class="color-header">
-        <Icon :color="selected" style="width: auto;">vue-js-grid</Icon>
+      {{ numberOfTiles }}
+
+      <div class="tilesToAdd">
+
+        <div class="tilePreview" v-for="tile in allTiles" :key="tile.id">
+          <span class="name">{{tile.imageName}}</span><br/>
+          <img @click="addToList(tile.id)" :src="require(`@/assets/tilePics/${tile.imageName}.png`)" />
+        </div>
+       
       </div>
       <grid
         :center="false"
         :draggable="true"
         :sortable="true"
-        :items="colors"
+        :items="usedTiles"
         :height="80"
         :width="80"
         @change="change"
@@ -28,7 +35,6 @@
         </template>
       </grid>
     </div>
-    <button @click="printMap">Print</button>
     <br />
     <br />
     {{ printedMap }}
@@ -37,28 +43,43 @@
 
 <script>
 import Icon from "@/components/Icon.vue";
-import { generateRGBColors, tiles } from "@/utils.js";
+import { tiles, generateTiles } from "@/utils.js";
+
 export default {
   components: {
     Icon
   },
   data() {
-    let colors = generateRGBColors(81);
+    let emptyTiles = generateTiles(81);
     let allTiles = tiles();
     return {
       printedMap: "",
-      colors,
-      allTiles,
-      selected: null
+      usedTiles: emptyTiles,
+      allTiles
     };
   },
+  computed: {
+    numberOfTiles() {
+      return this.usedTiles.length;
+    }
+  },
   methods: {
+    addToList(id) {
+
+      if (this.numberOfTiles == 81){
+        alert("81 erreicht!");
+        return;
+      }
+      const tile = this.allTiles.find(t => t.id == id);
+      console.log("ID: "+ id);
+      console.log(tile);
+      this.usedTiles.push(tile);
+    },
     printMap(map) {
       let text = "";
-
       let number = 0;
 
-      while (number < 81) {
+      while (number < this.usedTiles.length) {
         for (let i = 0; i < 9; i++) {
           text += "{";
           for (let j = 0; j < 9; j++) {
@@ -70,22 +91,20 @@ export default {
           }
           text += "}";
 
-          if (i < 8){
+          if (i < 8) {
             text += ", ";
           }
         }
       }
       this.printedMap = text;
     },
-    generateTiles(number) {
-      return Array.apply(null, new Array(number)).map(() => {
-        " x ";
-      });
-    },
     click({ items, index }) {
-      let value = items.find(v => v.index === index);
-      this.selected = value.item;
-      console.log(this.selected);
+      // Delete
+      items = items.filter(i => i.index !== index);
+      this.usedTiles = [];
+      for (let i = 0; i < items.length; i++) {
+        this.usedTiles[i] = items[i].item;
+      }
     },
     change(event) {
       console.log("change", event);
@@ -100,3 +119,9 @@ export default {
   }
 };
 </script>
+
+<style>
+.tilePreview{
+  display: inline-block !important;
+}
+</style>

@@ -63,9 +63,9 @@ export function tiles() {
   return t;
 }
 
-export const generateRGBColors = count => {
+export const generateTiles = (count) => {
   return Array.apply(null, new Array(count)).map(() => {
-    const randomTile = tiles()[randomInt(0, 10)];
+    const randomTile = tiles()[2];
     return {
       id: randomTile.id,
       name: randomTile.name,
@@ -74,4 +74,4 @@ export const generateRGBColors = count => {
   });
 };
 
-export default { randomInt, generateRGBColors };
+export default { randomInt, generateTiles };
