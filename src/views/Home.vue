@@ -3,20 +3,21 @@
     <img alt="Vue logo" src="../assets/logo.png" />
 
     <div class="container">
-      {{ numberOfTiles }}
+      Tiles: {{ numberOfTiles }}
 
       <div class="tilesToAdd">
         <div class="tilePreview" v-for="tile in allTiles" :key="tile.id">
-          <span class="name">{{ tile.imageName }}</span
+          <span class="name">{{ tile.desc }}</span
           ><br />
           <img
-            @click="addToList(tile.id)"
+            @click="selectTileToAdd(tile.id)"
             :src="require(`@/assets/tilePics/${tile.imageName}.png`)"
+            style="width: 60px; height: 60px;"
           />
         </div>
       </div>
       <grid
-        :center="false"
+        :center="true"
         :draggable="true"
         :sortable="true"
         :items="usedTiles"
@@ -55,6 +56,7 @@ export default {
     let emptyTiles = generateTiles(81);
     let allTiles = tiles();
     return {
+      tileIdToAdd: -1,
       printedMap: "",
       usedTiles: emptyTiles,
       allTiles
@@ -66,14 +68,15 @@ export default {
     }
   },
   methods: {
+    selectTileToAdd(id) {
+      this.tileIdToAdd = id;
+    },
     addToList(id) {
       if (this.numberOfTiles == 81) {
         alert("81 erreicht!");
         return;
       }
       const tile = this.allTiles.find(t => t.id == id);
-      console.log("ID: " + id);
-      console.log(tile);
       this.usedTiles.push(tile);
     },
     printMap(map) {
@@ -100,12 +103,27 @@ export default {
       this.printedMap = text;
     },
     click({ items, index }) {
-      // Delete
-      items = items.filter(i => i.index !== index);
+      if (this.tileIdToAdd == -1) {
+        return;
+      }
+
+      // ersetzen mit id
+      const tile = this.allTiles.find(t => t.id == this.tileIdToAdd);
+
+      console.log(tile);
+
+      items.forEach(item => {
+        if (item.index === index){
+          item.item = tile;
+        }
+      });
+
       this.usedTiles = [];
       for (let i = 0; i < items.length; i++) {
         this.usedTiles[i] = items[i].item;
       }
+
+      this.printMap(this.usedTiles);
     },
     change(event) {
       console.log("change", event);
@@ -122,7 +140,11 @@ export default {
 </script>
 
 <style>
+.tilesToAdd {
+  margin-top: 30px;
+}
 .tilePreview {
   display: inline-block !important;
+  margin: 0 2px;
 }
 </style>
