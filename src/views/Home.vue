@@ -33,7 +33,6 @@
             :color="props.item"
             :index="props.index"
             :with-button="true"
-            @remove="props.remove()"
           />
         </template>
       </grid>
