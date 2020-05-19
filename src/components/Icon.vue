@@ -30,9 +30,9 @@ export default {
     },
     style() {
       if (this.color) {
-        let background = this.color.color;
+        let imageName = this.color.imageName;
         return {
-          "background-color": background,
+          "background-image": `url('./assets/tilePics/${imageName}.png')`,
           color: this.brightness > 180 ? "#777" : "#f3f3f3"
         };
       }

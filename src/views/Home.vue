@@ -3,14 +3,8 @@
     <img alt="Vue logo" src="../assets/logo.png" />
 
     <div class="container">
-
-      <div class="legende" v-html="showAllTiles()"></div>
-      <hr/>
-
       <div class="color-header">
-        <Icon :color="selected" style="width: auto;">
-          vue-js-grid
-        </Icon>
+        <Icon :color="selected" style="width: auto;">vue-js-grid</Icon>
       </div>
       <grid
         :center="false"
@@ -35,6 +29,9 @@
       </grid>
     </div>
     <button @click="printMap">Print</button>
+    <br />
+    <br />
+    {{ printedMap }}
   </div>
 </template>
 
@@ -49,37 +46,36 @@ export default {
     let colors = generateRGBColors(81);
     let allTiles = tiles();
     return {
+      printedMap: "",
       colors,
       allTiles,
       selected: null
     };
   },
   methods: {
-    showAllTiles() {
-      const tiles = this.allTiles;
-      let txt = "";
+    printMap(map) {
+      let text = "";
 
-      tiles.forEach(tile => {
-        const name = tile[0];
-        const color = tile[1];
-        txt += `
-        <div class='tile'>
-          ${name}: <span style="padding: 10px; background-color:${color}">X</span>
-        </div><br/>`;
-      });
+      let number = 0;
 
-      return txt;
-    },
-    printMap() {
-      const d = this.colors;
-      let array = [];
+      while (number < 81) {
+        for (let i = 0; i < 9; i++) {
+          text += "{";
+          for (let j = 0; j < 9; j++) {
+            text += map[number].name;
+            if (j < 8) {
+              text += ", ";
+            }
+            number++;
+          }
+          text += "}";
 
-      for (let i = 0; i < d.length / 9; i++) {
-        for (let j = 0; j < 9; j++) {
-          array[i] = d[i].tile;
+          if (i < 8){
+            text += ", ";
+          }
         }
       }
-      console.log(array);
+      this.printedMap = text;
     },
     generateTiles(number) {
       return Array.apply(null, new Array(number)).map(() => {
@@ -98,6 +94,7 @@ export default {
       console.log("remove", event);
     },
     sort(event) {
+      this.printMap(event.items.map(i => i.item));
       console.log("sort", event);
     }
   }
