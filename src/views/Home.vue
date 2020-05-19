@@ -6,12 +6,14 @@
       {{ numberOfTiles }}
 
       <div class="tilesToAdd">
-
         <div class="tilePreview" v-for="tile in allTiles" :key="tile.id">
-          <span class="name">{{tile.imageName}}</span><br/>
-          <img @click="addToList(tile.id)" :src="require(`@/assets/tilePics/${tile.imageName}.png`)" />
+          <span class="name">{{ tile.imageName }}</span
+          ><br />
+          <img
+            @click="addToList(tile.id)"
+            :src="require(`@/assets/tilePics/${tile.imageName}.png`)"
+          />
         </div>
-       
       </div>
       <grid
         :center="false"
@@ -65,13 +67,12 @@ export default {
   },
   methods: {
     addToList(id) {
-
-      if (this.numberOfTiles == 81){
+      if (this.numberOfTiles == 81) {
         alert("81 erreicht!");
         return;
       }
       const tile = this.allTiles.find(t => t.id == id);
-      console.log("ID: "+ id);
+      console.log("ID: " + id);
       console.log(tile);
       this.usedTiles.push(tile);
     },
@@ -121,7 +122,7 @@ export default {
 </script>
 
 <style>
-.tilePreview{
+.tilePreview {
   display: inline-block !important;
 }
 </style>

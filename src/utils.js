@@ -63,7 +63,7 @@ export function tiles() {
   return t;
 }
 
-export const generateTiles = (count) => {
+export const generateTiles = count => {
   return Array.apply(null, new Array(count)).map(() => {
     const randomTile = tiles()[2];
     return {
