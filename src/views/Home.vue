@@ -101,7 +101,7 @@ export default {
               }
               switchesText += `{${j}, ${i}}`;
             } else if (name == "P_START") {
-              playerPosText = `{${j}, ${i}}`;
+              playerPosText = `${j}, ${i}`;
               name = "P_FREE";
             }
             text += name;
@@ -122,7 +122,8 @@ export default {
       this.printedDoors = ".doors = { <br/>" + doorsText + " <br/>},";
       this.printedSwitches =
         ".doorSwitch = { <br/>" + switchesText + " <br/>},";
-      this.printedPlayerPos = ".startPos = { <br/>" + playerPosText + " <br/>}";
+      this.printedPlayerPos =
+        ".startPos = { <br/>" + playerPosText + " <br/>},";
     },
     click(index) {
       if (this.tileIdToAdd == -1) {
