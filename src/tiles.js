@@ -1,6 +1,3 @@
-export const randomInt = (fr, to) => {
-  return Math.round(fr + Math.random() * to);
-};
 export function tiles() {
   const t = [
     {
@@ -86,4 +83,4 @@ export const generateTiles = count => {
   });
 };
 
-export default { randomInt, generateTiles };
+export default { generateTiles };
