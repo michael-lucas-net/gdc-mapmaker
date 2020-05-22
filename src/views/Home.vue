@@ -41,6 +41,8 @@
       <span v-html="printedDoors" /><br />
       <hr />
       <span v-html="printedSwitches" /><br />
+      <hr />
+      <span v-html="printedPlayerPos" /><br />
     </div>
   </div>
 </template>
@@ -57,6 +59,7 @@ export default {
       printedMap: "",
       printedSwitches: "",
       printedDoors: "",
+      printedPlayerPos: "",
       usedTiles: emptyTiles,
       allTiles
     };
@@ -78,6 +81,7 @@ export default {
       let text = "";
       let doorsText = "";
       let switchesText = "";
+      let playerPosText = "";
       let number = 0;
 
       while (number < this.usedTiles.length) {
@@ -85,7 +89,6 @@ export default {
           text += "{";
           for (let j = 0; j < 9; j++) {
             let name = map[number].name;
-            text += name;
 
             if (name === "P_DOOR") {
               if (doorsText !== "") {
@@ -97,7 +100,11 @@ export default {
                 switchesText += ", ";
               }
               switchesText += `{${j}, ${i}}`;
+            } else if (name == "P_START") {
+              playerPosText = `{${j}, ${i}}`;
+              name = "P_FREE";
             }
+            text += name;
 
             if (j < 8) {
               text += ", ";
@@ -115,6 +122,7 @@ export default {
       this.printedDoors = ".doors = { <br/>" + doorsText + " <br/>},";
       this.printedSwitches =
         ".doorSwitch = { <br/>" + switchesText + " <br/>},";
+      this.printedPlayerPos = ".startPos = { <br/>" + playerPosText + " <br/>}";
     },
     click(index) {
       if (this.tileIdToAdd == -1) {
@@ -123,11 +131,6 @@ export default {
 
       // Ersetzen
       this.usedTiles[index] = this.allTiles.find(t => t.id == this.tileIdToAdd);
-
-      console.log("Index: " + index);
-
-      console.log(this.usedTiles[0]);
-
       this.printMap(this.usedTiles);
     },
     change(event) {

@@ -7,7 +7,7 @@ export function tiles() {
       id: 1,
       desc: "Start",
       name: "P_START",
-      imageName: "free"
+      imageName: "start"
     },
     {
       id: 2,
