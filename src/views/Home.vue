@@ -113,7 +113,8 @@ export default {
       }
       this.printedMap = ".field = { <br/>" + text + " <br/>},";
       this.printedDoors = ".doors = { <br/>" + doorsText + " <br/>},";
-      this.printedSwitches = ".doorSwitch = { <br/>" + switchesText + " <br/>},";
+      this.printedSwitches =
+        ".doorSwitch = { <br/>" + switchesText + " <br/>},";
     },
     click(index) {
       if (this.tileIdToAdd == -1) {
