@@ -35,7 +35,11 @@
     </div>
     <br />
     <br />
-    {{ printedMap }}
+    <div class="container mb-5">
+      {{ printedMap }}<br />
+      <hr />
+      {{ printedDoors }}
+    </div>
   </div>
 </template>
 
@@ -49,6 +53,7 @@ export default {
     return {
       tileIdToAdd: -1,
       printedMap: "",
+      printedDoors: "",
       usedTiles: emptyTiles,
       allTiles
     };
@@ -68,13 +73,24 @@ export default {
     },
     printMap(map) {
       let text = "";
+      let doorsText = "";
       let number = 0;
 
       while (number < this.usedTiles.length) {
+        doorsText = "{";
         for (let i = 0; i < 9; i++) {
           text += "{";
           for (let j = 0; j < 9; j++) {
-            text += map[number].name;
+            let name = map[number].name;
+            text += name;
+
+            if (name === "P_DOOR") {
+              if (doorsText !== "{") {
+                doorsText += ", ";
+              }
+              doorsText += `{${i}, ${j}}`;
+            }
+
             if (j < 8) {
               text += ", ";
             }
@@ -86,8 +102,14 @@ export default {
             text += ", ";
           }
         }
+        doorsText += "}";
       }
-      this.printedMap = text;
+      this.printedMap = ".field = {" + text + "},";
+
+      if (doorsText != "{}") {
+        doorsText = ".doors = " + doorsText + ",";
+      }
+      this.printedDoors = doorsText;
     },
     click(index) {
       if (this.tileIdToAdd == -1) {
