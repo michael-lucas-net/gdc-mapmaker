@@ -36,11 +36,11 @@
     <br />
     <br />
     <div class="container mb-5">
-      {{ printedMap }}<br />
+      <span v-html="printedMap" /><br />
       <hr />
-      {{ printedDoors }}<br />
+      <span v-html="printedDoors" /><br />
       <hr />
-      {{ printedSwitches }}
+      <span v-html="printedSwitches" /><br />
     </div>
   </div>
 </template>
@@ -81,8 +81,6 @@ export default {
       let number = 0;
 
       while (number < this.usedTiles.length) {
-        doorsText = "{";
-        switchesText = "{";
         for (let i = 0; i < 9; i++) {
           text += "{";
           for (let j = 0; j < 9; j++) {
@@ -90,15 +88,15 @@ export default {
             text += name;
 
             if (name === "P_DOOR") {
-              if (doorsText !== "{") {
+              if (doorsText !== "") {
                 doorsText += ", ";
               }
-              doorsText += `{${i}, ${j}}`;
+              doorsText += `{${j}, ${i}}`;
             } else if (name == "P_DOOR_SWITCH") {
-              if (switchesText !== "{") {
+              if (switchesText !== "") {
                 switchesText += ", ";
               }
-              switchesText += `{${i}, ${j}}`;
+              switchesText += `{${j}, ${i}}`;
             }
 
             if (j < 8) {
@@ -112,20 +110,10 @@ export default {
             text += ", ";
           }
         }
-        doorsText += "}";
-        switchesText += "}";
       }
-      this.printedMap = ".field = {" + text + "},";
-
-      if (doorsText != "{}") {
-        doorsText = ".doors = " + doorsText;
-      }
-
-      if (switchesText != "{}") {
-        switchesText = ".doorSwitch = " + switchesText + ",";
-      }
-      this.printedDoors = doorsText;
-      this.printedSwitches = switchesText;
+      this.printedMap = ".field = { <br/>" + text + " <br/>},";
+      this.printedDoors = ".doors = { <br/>" + doorsText + " <br/>},";
+      this.printedSwitches = ".doorSwitch = { <br/>" + switchesText + " <br/>},";
     },
     click(index) {
       if (this.tileIdToAdd == -1) {
