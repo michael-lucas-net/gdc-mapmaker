@@ -23,7 +23,7 @@
               class="col-sm-2"
             >
               <img
-                :src="'../assets/tilePics/' + tile.imageName + '.png'"
+                :src="require(`@/assets/tilePics/${tile.imageName}.png`)"
                 class="m-2"
                 @click="click(index)"
                 style="width: 50px; height:50px;"
