@@ -1,9 +1,7 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-
-    <div class="container">
-      Tiles: {{ numberOfTiles }}
+    <div class="container mt-5">
+      <h1>Map mak0r</h1>
 
       <div class="tilesToAdd">
         <div class="tilePreview" v-for="tile in allTiles" :key="tile.id">
@@ -16,19 +14,21 @@
           />
         </div>
       </div>
-      <div class="col-lg-6 m-auto">
-        <div class="row">
-          <div
-            v-for="(tile, index) in usedTiles"
-            :key="index"
-            class="col-sm-2"
-          >
-            <img
-              :src="'../assets/tilePics/' + tile.imageName + '.png'"
-              class="m-2"
-              @click="click(index)"
-              style="width: 50px; height:50px;"
-            />
+      <div class="mt-3">
+        <div class="col-lg-6 m-auto">
+          <div class="row">
+            <div
+              v-for="(tile, index) in usedTiles"
+              :key="index"
+              class="col-sm-2"
+            >
+              <img
+                :src="'../assets/tilePics/' + tile.imageName + '.png'"
+                class="m-2"
+                @click="click(index)"
+                style="width: 50px; height:50px;"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -97,9 +97,8 @@ export default {
       // Ersetzen
       this.usedTiles[index] = this.allTiles.find(t => t.id == this.tileIdToAdd);
 
-
       console.log("Index: " + index);
-      
+
       console.log(this.usedTiles[0]);
 
       this.printMap(this.usedTiles);
