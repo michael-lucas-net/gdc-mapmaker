@@ -16,26 +16,22 @@
           />
         </div>
       </div>
-      <grid
-        :center="true"
-        :draggable="true"
-        :sortable="true"
-        :items="usedTiles"
-        :height="80"
-        :width="80"
-        @change="change"
-        @remove="remove"
-        @click="click"
-        @sort="sort"
-      >
-        <template slot="cell" scope="props">
-          <Icon
-            :color="props.item"
-            :index="props.index"
-            :with-button="true"
-          />
-        </template>
-      </grid>
+      <div class="col-lg-6 m-auto">
+        <div class="row">
+          <div
+            v-for="(tile, index) in usedTiles"
+            :key="index"
+            class="col-sm-2"
+          >
+            <img
+              :src="'../assets/tilePics/' + tile.imageName + '.png'"
+              class="m-2"
+              @click="click(index)"
+              style="width: 50px; height:50px;"
+            />
+          </div>
+        </div>
+      </div>
     </div>
     <br />
     <br />
@@ -44,13 +40,9 @@
 </template>
 
 <script>
-import Icon from "@/components/Icon.vue";
 import { tiles, generateTiles } from "@/utils.js";
 
 export default {
-  components: {
-    Icon
-  },
   data() {
     let emptyTiles = generateTiles(81);
     let allTiles = tiles();
@@ -71,10 +63,6 @@ export default {
       this.tileIdToAdd = id;
     },
     addToList(id) {
-      if (this.numberOfTiles == 81) {
-        alert("81 erreicht!");
-        return;
-      }
       const tile = this.allTiles.find(t => t.id == id);
       this.usedTiles.push(tile);
     },
@@ -101,26 +89,18 @@ export default {
       }
       this.printedMap = text;
     },
-    click({ items, index }) {
+    click(index) {
       if (this.tileIdToAdd == -1) {
         return;
       }
 
-      // ersetzen mit id
-      const tile = this.allTiles.find(t => t.id == this.tileIdToAdd);
+      // Ersetzen
+      this.usedTiles[index] = this.allTiles.find(t => t.id == this.tileIdToAdd);
 
-      console.log(tile);
 
-      items.forEach(item => {
-        if (item.index === index){
-          item.item = tile;
-        }
-      });
-
-      this.usedTiles = [];
-      for (let i = 0; i < items.length; i++) {
-        this.usedTiles[i] = items[i].item;
-      }
+      console.log("Index: " + index);
+      
+      console.log(this.usedTiles[0]);
 
       this.printMap(this.usedTiles);
     },
@@ -139,6 +119,13 @@ export default {
 </script>
 
 <style>
+.m-auto {
+  margin-top: 5% !important;
+  margin: 0 auto !important;
+}
+.col-sm-2 {
+  max-width: 11% !important;
+}
 .tilesToAdd {
   margin-top: 30px;
 }

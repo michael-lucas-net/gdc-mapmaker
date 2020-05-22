@@ -80,6 +80,7 @@ export const generateTiles = count => {
     return {
       id: randomTile.id,
       name: randomTile.name,
+      desc: randomTile.desc,
       imageName: randomTile.imageName
     };
   });
