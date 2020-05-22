@@ -38,7 +38,9 @@
     <div class="container mb-5">
       {{ printedMap }}<br />
       <hr />
-      {{ printedDoors }}
+      {{ printedDoors }}<br />
+      <hr />
+      {{ printedSwitches }}
     </div>
   </div>
 </template>
@@ -53,6 +55,7 @@ export default {
     return {
       tileIdToAdd: -1,
       printedMap: "",
+      printedSwitches: "",
       printedDoors: "",
       usedTiles: emptyTiles,
       allTiles
@@ -74,10 +77,12 @@ export default {
     printMap(map) {
       let text = "";
       let doorsText = "";
+      let switchesText = "";
       let number = 0;
 
       while (number < this.usedTiles.length) {
         doorsText = "{";
+        switchesText = "{";
         for (let i = 0; i < 9; i++) {
           text += "{";
           for (let j = 0; j < 9; j++) {
@@ -89,6 +94,11 @@ export default {
                 doorsText += ", ";
               }
               doorsText += `{${i}, ${j}}`;
+            } else if (name == "P_DOOR_SWITCH") {
+              if (switchesText !== "{") {
+                switchesText += ", ";
+              }
+              switchesText += `{${i}, ${j}}`;
             }
 
             if (j < 8) {
@@ -103,13 +113,19 @@ export default {
           }
         }
         doorsText += "}";
+        switchesText += "}";
       }
       this.printedMap = ".field = {" + text + "},";
 
       if (doorsText != "{}") {
-        doorsText = ".doors = " + doorsText + ",";
+        doorsText = ".doors = " + doorsText;
+      }
+
+      if (switchesText != "{}") {
+        switchesText = ".doorSwitch = " + switchesText + ",";
       }
       this.printedDoors = doorsText;
+      this.printedSwitches = switchesText;
     },
     click(index) {
       if (this.tileIdToAdd == -1) {
