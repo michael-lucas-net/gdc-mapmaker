@@ -14,6 +14,16 @@
           />
         </div>
       </div>
+      <div v-if="tileIdToAdd > -1">
+        <hr />
+        <h6>Ausgewählt:</h6>
+        <img
+          :src="require(`@/assets/tilePics/${selectedTileImageName}.png`)"
+          style="width: 60px; height: 60px;"
+        />
+        <hr />
+      </div>
+
       <div class="mt-3">
         <div class="col-lg-6 m-auto">
           <div class="row">
@@ -36,6 +46,7 @@
     <br />
     <br />
     <b-button @click="copyMap()">Kopieren</b-button>
+    <hr />
     <div class="container mb-5"><span v-html="printedMap" /><br /></div>
   </div>
 </template>
@@ -121,6 +132,15 @@ export default {
       // Ersetzen
       this.usedTiles[index] = this.allTiles.find(t => t.id == this.tileIdToAdd);
       this.printMap(this.usedTiles);
+    }
+  },
+  computed: {
+    selectedTileImageName() {
+      if (this.tileIdToAdd === -1) {
+        return 1;
+      }
+
+      return this.allTiles.filter(t => t.id === this.tileIdToAdd)[0].imageName;
     }
   }
 };
