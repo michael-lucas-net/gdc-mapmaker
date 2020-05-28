@@ -36,7 +36,7 @@
                 :src="require(`@/assets/tilePics/${tile.imageName}.png`)"
                 class="m-2"
                 @click="click(index)"
-                style="width: 50px; height:50px;"
+                style="width: 50px; height: 50px;"
               />
             </div>
           </div>
@@ -63,7 +63,7 @@ export default {
       tileIdToAdd: -1,
       printedMap: "",
       usedTiles: emptyTiles,
-      allTiles
+      allTiles,
     };
   },
   methods: {
@@ -75,7 +75,7 @@ export default {
       this.tileIdToAdd = id;
     },
     addToList(id) {
-      const tile = this.allTiles.find(t => t.id == id);
+      const tile = this.allTiles.find((t) => t.id == id);
       this.usedTiles.push(tile);
     },
     printMap(map) {
@@ -130,9 +130,11 @@ export default {
       }
 
       // Ersetzen
-      this.usedTiles[index] = this.allTiles.find(t => t.id == this.tileIdToAdd);
+      this.usedTiles[index] = this.allTiles.find(
+        (t) => t.id == this.tileIdToAdd
+      );
       this.printMap(this.usedTiles);
-    }
+    },
   },
   computed: {
     selectedTileImageName() {
@@ -140,9 +142,10 @@ export default {
         return 1;
       }
 
-      return this.allTiles.filter(t => t.id === this.tileIdToAdd)[0].imageName;
-    }
-  }
+      return this.allTiles.filter((t) => t.id === this.tileIdToAdd)[0]
+        .imageName;
+    },
+  },
 };
 </script>
 
