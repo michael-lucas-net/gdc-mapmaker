@@ -35,13 +35,13 @@
     </div>
     <br />
     <br />
-    <div class="container mb-5">
-      <span v-html="printedMap" /><br />
-    </div>
+    <b-button @click="copyMap()">Kopieren</b-button>
+    <div class="container mb-5"><span v-html="printedMap" /><br /></div>
   </div>
 </template>
 
 <script>
+import copy from "copy-to-clipboard";
 import { tiles, generateTiles } from "@/tiles.js";
 
 export default {
@@ -56,6 +56,10 @@ export default {
     };
   },
   methods: {
+    copyMap() {
+      copy(this.printedMap);
+      alert("Kopiert!");
+    },
     selectTileToAdd(id) {
       this.tileIdToAdd = id;
     },
