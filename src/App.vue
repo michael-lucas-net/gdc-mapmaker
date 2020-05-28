@@ -45,7 +45,7 @@
     </div>
     <br />
     <br />
-    <b-button @click="copyMap()">Kopieren</b-button>
+    <b-button @click="copyMap()">{{ buttonText }}</b-button>
     <hr />
     <div class="container mb-5"><span v-html="printedMap" /><br /></div>
   </div>
@@ -60,6 +60,7 @@ export default {
     let emptyTiles = generateTiles(81);
     let allTiles = tiles();
     return {
+      buttonText: "Kopieren",
       tileIdToAdd: -1,
       printedMap: "",
       usedTiles: emptyTiles,
@@ -69,7 +70,7 @@ export default {
   methods: {
     copyMap() {
       copy(this.printedMap);
-      alert("Kopiert!");
+      this.buttonText = "Kopiert!";
     },
     selectTileToAdd(id) {
       this.tileIdToAdd = id;
@@ -125,6 +126,7 @@ export default {
       this.printedMap += "\n.startPos = { \n" + playerPosText + "\n},";
     },
     click(index) {
+      this.buttonText = "Kopieren";
       if (this.tileIdToAdd == -1) {
         return;
       }
