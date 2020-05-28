@@ -1,7 +1,7 @@
 <template>
   <div class="text-center">
     <div class="container mt-5">
-      <h1>Map mak0r</h1>
+      <h1>Map Generator</h1>
 
       <div class="tilesToAdd">
         <div class="tilePreview" v-for="tile in allTiles" :key="tile.id">
@@ -37,12 +37,6 @@
     <br />
     <div class="container mb-5">
       <span v-html="printedMap" /><br />
-      <hr />
-      <span v-html="printedDoors" /><br />
-      <hr />
-      <span v-html="printedSwitches" /><br />
-      <hr />
-      <span v-html="printedPlayerPos" /><br />
     </div>
   </div>
 </template>
@@ -57,9 +51,6 @@ export default {
     return {
       tileIdToAdd: -1,
       printedMap: "",
-      printedSwitches: "",
-      printedDoors: "",
-      printedPlayerPos: "",
       usedTiles: emptyTiles,
       allTiles
     };
@@ -113,12 +104,10 @@ export default {
           }
         }
       }
-      this.printedMap = ".field = { <br/>" + text + " <br/>},";
-      this.printedDoors = ".doors = { <br/>" + doorsText + " <br/>},";
-      this.printedSwitches =
-        ".doorSwitch = { <br/>" + switchesText + " <br/>},";
-      this.printedPlayerPos =
-        ".startPos = { <br/>" + playerPosText + " <br/>},";
+      this.printedMap = "\n.field = { \n" + text + " \n},";
+      this.printedMap += "\n.doors = { \n" + doorsText + " \n},";
+      this.printedMap += "\n.doorSwitch = { \n" + switchesText + " \n},";
+      this.printedMap += "\n.startPos = { \n" + playerPosText + "\n},";
     },
     click(index) {
       if (this.tileIdToAdd == -1) {

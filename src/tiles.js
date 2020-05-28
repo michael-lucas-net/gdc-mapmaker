@@ -1,5 +1,5 @@
 export function tiles() {
-  const t = [
+  return [
     {
       id: 1,
       desc: "Start",
@@ -67,8 +67,6 @@ export function tiles() {
       imageName: "portal"
     }
   ];
-
-  return t;
 }
 
 export const generateTiles = count => {
