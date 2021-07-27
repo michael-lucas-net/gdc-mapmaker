@@ -10,7 +10,7 @@
           <img
             @click="selectTileToAdd(tile.id)"
             :src="require(`@/assets/tilePics/${tile.imageName}.png`)"
-            style="width: 60px; height: 60px;"
+            style="width: 60px; height: 60px"
           />
         </div>
       </div>
@@ -19,7 +19,7 @@
         <h6>Ausgewählt:</h6>
         <img
           :src="require(`@/assets/tilePics/${selectedTileImageName}.png`)"
-          style="width: 60px; height: 60px;"
+          style="width: 60px; height: 60px"
         />
         <hr />
       </div>
@@ -36,7 +36,7 @@
                 :src="require(`@/assets/tilePics/${tile.imageName}.png`)"
                 class="m-2"
                 @click="click(index)"
-                style="width: 50px; height: 50px;"
+                style="width: 50px; height: 50px"
               />
             </div>
           </div>
