@@ -1,2 +1,24 @@
-# ueb02-mapmaker
-Kartengenerator für [OPENGL Aufgabe 2 & 3](https://github.com/michael-lucas-net/opengl)
+# new
+
+## Project setup
+```
+yarn install
+```
+
+### Compiles and hot-reloads for development
+```
+yarn serve
+```
+
+### Compiles and minifies for production
+```
+yarn build
+```
+
+### Lints and fixes files
+```
+yarn lint
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
