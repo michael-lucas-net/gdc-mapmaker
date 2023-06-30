@@ -16,50 +16,60 @@ export default {
       this.usedTiles.push(tile);
     },
     printMap(map) {
-      let text = "";
-      let doorsText = "";
-      let switchesText = "";
-      let playerPosText = "";
-      let number = 0;
+      const text = [],
+        doors = [],
+        switches = [];
+      let playerPos = "";
 
-      while (number < this.usedTiles.length) {
-        for (let i = 0; i < 9; i++) {
-          text += "{";
-          for (let j = 0; j < 9; j++) {
-            let name = map[number].name;
+      map.forEach((tile, idx) => {
+        // Berechne die Position innerhalb des 9x9-Feldes
+        const row = Math.floor(idx / 9);
+        const col = idx % 9;
 
-            if (name === "P_DOOR") {
-              if (doorsText !== "") {
-                doorsText += ", ";
-              }
-              doorsText += `{${j}, ${i}}`;
-            } else if (name == "P_DOOR_SWITCH") {
-              if (switchesText !== "") {
-                switchesText += ", ";
-              }
-              switchesText += `{${j}, ${i}}`;
-            } else if (name == "P_START") {
-              playerPosText = `${j}, ${i}`;
-              name = "P_FREE";
-            }
-            text += name;
+        let name = tile.name;
 
-            if (j < 8) {
-              text += ", ";
-            }
-            number++;
-          }
-          text += "}";
+        // Flags für verschiedene Zustände
+        const isDoor = name === "P_DOOR";
+        const isDoorSwitch = name === "P_DOOR_SWITCH";
+        const isStart = name === "P_START";
+        const isFirstCol = col === 0;
+        const isLastCol = col === 8;
 
-          if (i < 8) {
-            text += ", ";
-          }
+        // Füge die Position zur Liste der Türen hinzu, wenn die Kachel eine Tür ist
+        if (isDoor) {
+          doors.push(`{${col}, ${row}}`);
         }
-      }
-      this.printedMap = "\n.field = { \n" + text + " \n},";
-      this.printedMap += "\n.doors = { \n" + doorsText + " \n},";
-      this.printedMap += "\n.doorSwitch = { \n" + switchesText + " \n},";
-      this.printedMap += "\n.startPos = { \n" + playerPosText + "\n},";
+
+        // Füge die Position zur Liste der Schalter hinzu, wenn die Kachel ein Schalter ist
+        if (isDoorSwitch) {
+          switches.push(`{${col}, ${row}}`);
+        }
+
+        // Speichere die Startposition und setze den Namen auf 'P_FREE'
+        if (isStart) {
+          playerPos = `{${col}, ${row}}`;
+          name = "P_FREE";
+        }
+
+        // Füge eine öffnende Klammer hinzu, wenn wir eine neue Zeile beginnen
+        if (isFirstCol) {
+          text.push("{");
+        }
+
+        // Füge den Namen der Kachel zur Ausgabe hinzu
+        text.push(name);
+
+        // Füge eine schließende Klammer hinzu, wenn wir eine Zeile beenden
+        if (isLastCol) {
+          text.push("}");
+        }
+      });
+
+      this.printedMap = `
+      .field = { \n${text.join(", ")} \n},
+      .doors = { \n${doors.join(", ")} \n},
+      .doorSwitch = { \n${switches.join(", ")} \n},
+      .startPos = { \n${playerPos} \n},`;
     },
     click(index) {
       this.buttonText = "Kopieren";
